@@ -1,10 +1,15 @@
+d3.json("samples.json").then(function(mdata){
+  console.log(mdata);
+});
+
+
 function buildMetadata(sample) {
 
   // @TODO: Complete the following function that builds the metadata panel
 
   // Use `d3.json` to fetch the metadata for a sample
     // Use d3 to select the panel with id of `#sample-metadata`
-  d3.json("../samples.json", function(mdata){
+  d3.json("samples.json", function(mdata){
     console.log(mdata);
   });
   var samples = d3.selectAll("#sample-metadata")
@@ -44,20 +49,24 @@ function init() {
   var selector = d3.select("#selDataset");
 
   // Use the list of sample names to populate the select options
-  d3.json("/names").then((sampleNames) => {
-    sampleNames.forEach((sample) => {
-      selector
-        .append("option")
-        .text(sample)
-        .property("value", sample);
-    });
+
+  d3.json("samples.json").then(function(mdata) {
+    var sampleNames = mdata.names
+  });
+
+  // d3.json("/names").then((sampleNames) => {
+  //   sampleNames.forEach((sample) => {
+  //     selector
+  //       .append("option")
+  //       .text(sample)
+  //       .property("value", sample);
+  //   });
 
     // Use the first sample from the list to build the initial plots
     const firstSample = sampleNames[0];
     buildCharts(firstSample);
     buildMetadata(firstSample);
-  });
-}
+  };
 
 function optionChanged(newSample) {
   // Fetch new data each time a new sample is selected
